@@ -60,7 +60,7 @@ def get_data(conn, query):
 
 
 def insert_data(conn, query):
-    '''Insere '''
+    '''Insere dados no BD'''
     cursor = conn.cursor()
     try:
         cursor.execute(query)
@@ -72,20 +72,24 @@ def insert_data(conn, query):
     conn.commit()
     cursor.close()
 
+def remove_data(conn, query, id):
+    '''Remove dados do BD '''
+    cursor = conn.cursor()
+    try:
+        cursor.execute(query, (id,))
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("Error: %s" % error)
+        cursor.close()
+        return 1
+
+    conn.commit()
+    cursor.close()
 
 conn = connect(param)
 
 conn.autocommit = True
 
 query1 = '''SELECT * FROM vendas'''
-
-query2 = '''INSERT INTO vendas (id, data, funcionario, vendas, dia_semana) VALUES (5,'24/08/2021', 'Carlos', 10, 'Quinta' )'''
-
-result = get_data(conn, query1)
-
-print(result)
-
-insert_data(conn, query2)
 
 result = get_data(conn, query1)
 
@@ -94,5 +98,15 @@ print(result)
 query3 = ''' SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'vendas' '''
 
 result = get_data(conn, query3)
+
+print(result)
+
+query2 = ''' Delete from vendas where id = %s '''
+
+remove_data(conn, query2,1)
+
+query1 = '''SELECT * FROM vendas'''
+
+result = get_data(conn, query1)
 
 print(result)
