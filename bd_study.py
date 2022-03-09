@@ -72,6 +72,7 @@ def insert_data(conn, query):
     conn.commit()
     cursor.close()
 
+
 def remove_data(conn, query, id):
     '''Remove dados do BD '''
     cursor = conn.cursor()
@@ -84,6 +85,7 @@ def remove_data(conn, query, id):
 
     conn.commit()
     cursor.close()
+
 
 conn = connect(param)
 
@@ -103,7 +105,7 @@ print(result)
 
 query2 = ''' Delete from vendas where id = %s '''
 
-remove_data(conn, query2,1)
+remove_data(conn, query2, 1)
 
 query1 = '''SELECT * FROM vendas'''
 
