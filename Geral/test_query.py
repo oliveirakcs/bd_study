@@ -1,14 +1,12 @@
-from fastapi import FastAPI, Query
+import openpyxl as op
 
-from typing import Optional
+XLSX_PATH = "C:\\ProgramData\\TARGITCloudClient\\TARGITCloudClient.xlsx"
 
-app = FastAPI()
+wb_obj = op.load_workbook(XLSX_PATH)
+sheet_obj = wb_obj.active
 
-@app.get("/books")
-def read_books(test: Optional[str] = Query(None, min_length=3, max_length=10)):
-    results = {"books": [{"book_name": "The Great Hunt"}, {"book_name": "The Dragon Reborn"}]}
+cell_obj = sheet_obj.cell(row=1, column=1).value
 
-    if test:
-        results.update({"test": test})
-    
-    return results
+t = sheet_obj
+
+print(t)
